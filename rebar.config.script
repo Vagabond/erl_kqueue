@@ -1,4 +1,4 @@
-case rebar_utils:is_arch("bsd") of
+case rebar_utils:is_arch("bsd") orelse rebar_utils:is_arch("dragonfly") of
 		true ->
 			[
 				{port_specs, [
