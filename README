@@ -1,0 +1,2 @@
+Super simple erlang port using kqueue (or libkqueue on non BSD systems) to
+monitor a file for changes.

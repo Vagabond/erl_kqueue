@@ -1,0 +1,24 @@
+case rebar_utils:is_arch("bsd") of
+		true ->
+			[
+				{port_specs, [
+						{"priv/erl_kqueue", ["c_src/*.c"]}
+					]},
+				{port_env, [
+						{"CFLAGS", "$CFLAGS -fPIC"},
+						{"DRV_CFLAGS", "$DRV_CFLAGS -Werror"}
+					]}
+			];
+		_ ->
+			[
+				{port_specs, [
+						{"priv/erl_kqueue", ["c_src/main.c"]}
+					]},
+				{port_env, [
+						{"EXE_CFLAGS", "$DRV_CFLAGS -Werror -I c_src/libkqueue-1.0.6/include"},
+						{"EXE_LDFLAGS", "$LDFLAGS c_src/libkqueue-1.0.6/libkqueue.a -lpthread"}
+					]},
+				{pre_hooks, [{compile, "c_src/build_deps.sh"}]},
+				{post_hooks, [{clean, "c_src/build_deps.sh clean"}]}
+			]
+	end.
